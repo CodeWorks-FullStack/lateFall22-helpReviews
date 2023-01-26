@@ -6,6 +6,17 @@
       </div>
     </div>
   </div>
+
+  <button data-bs-target="#create-restaurant" data-bs-toggle="modal">modal</button>
+
+  <Modal id="create-restaurant" modal-title="Create Restaurant">
+    <div class="card">
+      <div class="card-body">
+        <RestaurantForm />
+      </div>
+    </div>
+
+  </Modal>
 </template>
 
 <script>

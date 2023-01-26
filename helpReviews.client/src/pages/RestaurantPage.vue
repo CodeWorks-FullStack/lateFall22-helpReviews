@@ -11,15 +11,21 @@
     <div class="row bg-image align-items-center">
       <div class="col-12">
         <h1 class="ms-4">
-          {{ restaurant.name }}
+          {{ restaurant.name }} <span v-if="restaurant.shutdown" class="ms-3"> <i
+              class="mdi mdi-alien mdi-spin"></i></span>
           <br>
           <marquee class="w-50">
             <i v-for="r in restaurant.exposure" class="mdi mdi-nuke"></i>
           </marquee>
         </h1>
 
-        <button @click="shutItDown()" v-if="canShutdown"
+        <button @click="shutItDown()" v-if="canShutdown && !restaurant.shutdown"
           class="btn ms-4 btn-danger text-light px-5 py-2 fs-5 mt-2">Shutdown</button>
+        <button @click="reopen()" v-if="canShutdown && restaurant.shutdown" class="btn ms-4 btn-warning text-dark px-5 py-2 fs-5 mt-2">
+          <b>
+            re-open
+          </b>
+        </button>
       </div>
     </div>
 
@@ -129,11 +135,23 @@ export default {
       reports: computed(() => AppState.reports),
       debugging,
       isClosed,
+      // REVIEW CSS v-bind becomes the class .bg-image
       coverImg: computed(() => `url(${AppState.restaurant?.coverImg})`),
-      canShutdown: computed(() => AppState.restaurant?.exposure > 10 && AppState.reports.length > 3),
+      canShutdown: computed(() => AppState.restaurant?.exposure > 10 && AppState.reports.length > 3 && AppState.account.id == AppState.restaurant?.ownerId),
+      async reopen() {
+        try {
+          await restaurantsService.reopen(route.params.id)
+        } catch (error) {
+          Pop.error(error)
+        }
+      },
       async shutItDown() {
         try {
-          await restaurantsService.shutItDown(route.params.restaurantId)
+
+          const yes = await Pop.confirm('Are you sure you want to close this restaurant down?', 'You will have to reopen it from the db... because I don\'t have client way of doing that...')
+          if (!yes) { return }
+
+          await restaurantsService.shutItDown(route.params.id)
         } catch (error) {
           logger.error(error)
           Pop.error(error.message)
@@ -158,7 +176,7 @@ h1 {
   color: wheat;
 }
 
-.cool-header{
+.cool-header {
   background-image: url(https://www.si.edu/sites/default/files/blog/crab_nebula.jpg);
   background-attachment: fixed;
   height: 100%;
@@ -166,7 +184,9 @@ h1 {
   background-position: center;
   width: 100%;
   padding: 1rem;
-  button, i{
+
+  button,
+  i {
     text-shadow: 1px 1px 2px rgb(255, 255, 255);
     color: wheat
   }

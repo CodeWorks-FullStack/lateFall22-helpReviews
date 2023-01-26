@@ -21,7 +21,7 @@ class RestaurantsService {
   }
 
   async createRestaurant(restaurantData) {
-    const res = await api.post('/api/restaurant', restaurantData)
+    const res = await api.post('/api/restaurants', restaurantData)
     logger.log('wut', res.data)
     AppState.restaurants.push(new Restaurant(res.data))
   }
@@ -30,6 +30,16 @@ class RestaurantsService {
     const res = await api.get('/api/restaurants/' + id + '/reports')
     logger.log(res.data)
     AppState.reports = res.data
+  }
+
+  async shutItDown(id) {
+    await api.put('/api/restaurants/' + id, { ...AppState.restaurant, shutdown: true })
+    AppState.restaurant.shutdown = true
+  }
+
+  async reopen(id) {
+    await api.put('/api/restaurants/' + id, { ...AppState.restaurant, shutdown: false })
+    AppState.restaurant.shutdown = false
   }
 
 
