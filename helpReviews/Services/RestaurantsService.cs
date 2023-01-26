@@ -32,6 +32,10 @@ public class RestaurantsService
     return restaurant;
   }
 
+  public Restaurant Create(Restaurant restaurantData)
+  {
+    return _repo.Create(restaurantData);
+  }
 
 
 

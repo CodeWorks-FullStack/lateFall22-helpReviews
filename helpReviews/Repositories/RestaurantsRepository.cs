@@ -13,7 +13,16 @@ public class RestaurantsRepository : IRepository<Restaurant, int>
 
   public Restaurant Create(Restaurant restaurantData)
   {
-    throw new NotImplementedException();
+    string sql = @"
+      INSERT INTO restaurants
+        (name, `ownerId`, `coverImg`, description)
+      VALUES
+        (@Name, @OwnerId, @CoverImg, @Description);
+      SELECT LAST_INSERT_ID()
+      ;";
+
+    restaurantData.Id = _db.ExecuteScalar<int>(sql, restaurantData);
+    return restaurantData;
   }
 
   public bool Delete(int id)

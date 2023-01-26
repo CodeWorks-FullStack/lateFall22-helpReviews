@@ -20,6 +20,12 @@ class RestaurantsService {
     AppState.restaurant = new Restaurant(res.data)
   }
 
+  async createRestaurant(restaurantData) {
+    const res = await api.post('/api/restaurant', restaurantData)
+    logger.log('wut', res.data)
+    AppState.restaurants.push(new Restaurant(res.data))
+  }
+
   async getReports(id) {
     const res = await api.get('/api/restaurants/' + id + '/reports')
     logger.log(res.data)

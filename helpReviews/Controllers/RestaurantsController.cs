@@ -64,6 +64,26 @@ public class RestaurantsController : ControllerBase
     }
   }
 
+
+  [HttpPost]
+  [Authorize]
+  public async Task<ActionResult<Restaurant>> Create([FromBody] Restaurant restaurantData)
+  {
+    try 
+    {
+      Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+      restaurantData.OwnerId = userInfo.Id;
+      Restaurant restaurant = _restaurantsService.Create(restaurantData);
+      return Ok(restaurant); 
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
+
+
+
   [HttpPut("{id}")]
   [Authorize]
   public async Task<ActionResult<Restaurant>> Update(int id, [FromBody] Restaurant updateData)
