@@ -1,13 +1,13 @@
 <template>
   <form @submit.prevent="handleSubmit">
     <div class="mb-2">
-      <input class="form-control" placeholder="review title" type="text" v-model="editable.title">
+      <input class="form-control" placeholder="review title" type="text" v-model="editable.title" required>
     </div>
     <div>
-      <textarea placeholder="review" class="form-control" rows="8" v-model="editable.body"></textarea>
+      <textarea placeholder="review" class="form-control" rows="8" v-model="editable.body" required></textarea>
     </div>
 
-    <button class="mt-2 btn btn-primary" type="submit">Submit</button>
+    <button class="mt-2 btn btn-primary" type="submit" data-bs-dismiss="modal">Submit</button>
 
 
   </form>
