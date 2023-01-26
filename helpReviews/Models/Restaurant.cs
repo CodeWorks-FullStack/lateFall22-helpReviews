@@ -7,7 +7,7 @@ public class Restaurant
   public string Description { get; set; }
   public string coverImg { get; set; }
   public string OwnerId { get; set; }
-  public int ReportCount { get; set; }
+  public int ReportCount { get; set; } // virtual field (aka needs to be populated or joined or computed)
   public int Exposure { get; set; }
   public bool? Shutdown { get; set; }
 }

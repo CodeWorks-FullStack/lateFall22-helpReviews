@@ -1,3 +1,4 @@
+-- Active: 1674751345100@@SG-marred-dish-4573-7100-mysql-master.servers.mongodirector.com@3306@freebie
 CREATE TABLE IF NOT EXISTS accounts(
   id VARCHAR(255) NOT NULL primary key COMMENT 'primary key',
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
@@ -36,6 +37,12 @@ INSERT INTO restaurants
 VALUES
 ('Sizzle Fizzle', '634844a08c9d1ba02348913d', 'https://images.unsplash.com/photo-1512152272829-e3139592d56f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80' ,"Lorizzle you son of a bizzle dolizzle check out this amizzle, boofron adipiscing its fo rizzle. Nullam things velizzle, aliquet volutpizzle, dang mofo.");
 
+
+INSERT INTO restaurants
+(name, `ownerId`, `coverImg`, description)
+VALUES
+('PB and Jakes', '634844a08c9d1ba02348913d', 'https://images.unsplash.com/photo-1603701972178-96760b471be9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80' ,"We gonna keep this a bit more pg");
+
 -- SECTION Reports
 
 CREATE TABLE reports(
@@ -48,6 +55,23 @@ CREATE TABLE reports(
   Foreign Key (creatorId) REFERENCES accounts(id) ON DELETE CASCADE,
   Foreign Key (restaurantId) REFERENCES restaurants(id) ON DELETE CASCADE
 )default charset utf8 COMMENT '';
+
+
+-- REVIEW --  HEY YOU ARE GOING TO NEED THIS FOR THE FINAL 😜
+-- SELECT 
+--   r.*,
+--   COUNT(rep.id) AS reportCount
+-- FROM restaurants r 
+-- JOIN reports rep ON rep.restaurantId = r.id
+-- WHERE r.id = 1;
+
+-- SELECT * FROM reports WHERE `restaurantId` = 1;
+
+
+
+
+
+
 
 INSERT INTO reports
 (title, `creatorId`, `restaurantId`, body)

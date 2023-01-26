@@ -36,9 +36,11 @@ public class RestaurantsRepository : IRepository<Restaurant, int>
   {
     string sql = @"
     SELECT
-    *
-    FROM restaurants
-    WHERE id = @id;
+    r.*,
+    COUNT(rep.id) AS ReportCount
+    FROM restaurants r
+    JOIN reports rep ON r.id = rep.restaurantId
+    WHERE r.id = @id;
     ";
     Restaurant restaurant = _db.Query<Restaurant>(sql, new { id }).FirstOrDefault();
     return restaurant;
