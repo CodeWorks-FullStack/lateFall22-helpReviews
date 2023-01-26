@@ -9,7 +9,7 @@
           <h3 class="text-dark">{{ restaurant.name }}</h3>
         </router-link>
 
-        <h3 v-if="restaurant.exposure">
+        <h3 class="w-50" v-if="restaurant.exposure">
           <marquee :title="restaurant.exposure">
               <i class="mdi mdi-nuke" v-for="i in restaurant.exposure"></i>
           </marquee>

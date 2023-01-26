@@ -11,6 +11,18 @@ class RestaurantsService {
     AppState.restaurants = res.data.map(r => new Restaurant(r))
   }
 
+  async getRestaurantById(id) {
+    const res = await api.get('/api/restaurants/' + id)
+    logger.log(res.data)
+    AppState.restaurant = new Restaurant(res.data)
+  }
+
+  async getReports(id) {
+    const res = await api.get('/api/restaurants/' + id + '/reports')
+    logger.log(res.data)
+    AppState.reports = res.data
+  }
+
 }
 
 
